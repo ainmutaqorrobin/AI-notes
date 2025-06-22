@@ -11,7 +11,7 @@ export default function Home() {
         <div className="mb-8">
           <Image
             src={logo}
-            alt="Smart Notes Logo"
+            alt="AI Notes Logo"
             width={120}
             height={120}
             className="mx-auto"
@@ -21,7 +21,7 @@ export default function Home() {
 
         {/* Title */}
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
-          Smart Notes
+          AI Notes
         </h1>
 
         {/* Description */}
