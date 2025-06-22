@@ -1,9 +1,33 @@
-# AI Notes App
+# 🧠 Note AI — AI-Powered Notes with RAG
 
-This is a note-taking app with an **AI chatbot** that can answer questions based on the user's notes using RAG (Retrieval Augmented Generation). We use **Convex** for the backend & authentication, the **Vercel AI SDK v5** for streaming and tool-calling, and the **OpenAI API** for the LLM.
+Note AI is an intelligent note-taking application powered by **AI**. It allows users to create and manage notes, and then **ask questions about their notes** using **RAG (Retrieval-Augmented Generation)** with OpenAI. It’s a great example of combining **Next.js**, **Convex**, and the **Vercel AI SDK** to build real-time, full-stack AI experiences.
 
-Watch the tutorial on YouTube: https://www.youtube.com/watch?v=nDgs4Z58Hrc
+## 🚀 Features
 
-Note: The default branch is the **starting code**. To see the **final code**, checkout the `Final-project` branch.
+- 📝 Create and manage notes in a modern, clean UI
+- 🤖 Ask questions based on your own notes using AI (RAG)
+- 🔐 Authentication with Convex
+- ⚡ Real-time, serverless backend using Convex
+- 🌗 Dark mode with `next-themes`
+- 💬 Streaming AI responses using Vercel AI SDK v5
+- 🎨 Styled with Tailwind CSS and Radix UI
 
-![Thumbnails 3](https://github.com/user-attachments/assets/f3e4da8b-dc60-46a1-95f8-eabec54cd62f)
+## 📦 Tech Stack
+
+- **Next.js 15** with Turbopack
+- **React 19** with `react-hook-form` and `zod` for forms and validation
+- **Convex** for backend and authentication
+- **OpenAI** via the `ai` SDK for AI-powered answers
+- **Radix UI** components for dialogs and menus
+- **Tailwind CSS v4** for styling
+- **Lucide Icons**, **Sonner Toasts**, and more...
+
+## 🛠️ Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Run in development mode
+npm run dev
+```
