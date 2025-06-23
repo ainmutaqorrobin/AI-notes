@@ -28,6 +28,9 @@ Note AI is an intelligent note-taking application powered by **AI**. It allows u
 # Install dependencies
 npm install
 
+# Run Convex for backend
+npx convex dev
+
 # Run in development mode
 npm run dev
 ```
