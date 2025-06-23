@@ -1,8 +1,8 @@
 import { getAuthUserId } from "@convex-dev/auth/server";
-import { mutationGeneric } from "convex/server";
 import { v } from "convex/values";
+import { mutation } from "./_generated/server";
 
-export const createNote = mutationGeneric({
+export const createNote = mutation({
   args: {
     title: v.string(),
     body: v.string(),
