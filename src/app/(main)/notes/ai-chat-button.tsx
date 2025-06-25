@@ -3,8 +3,17 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import { useAuthToken } from "@convex-dev/auth/react";
 import { Bot, Expand, Minimize, Send, Trash, X } from "lucide-react";
 import { useRef, useState } from "react";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport, UIMessage } from "ai";
+import ChatMessage from "@/components/chat-message";
+
+const convexSiteUrl = process.env.NEXT_PUBLIC_CONVEX_URL?.replace(
+  /.cloud$/,
+  ".site"
+);
 
 export function AIChatButton() {
   const [chatOpen, setChatOpen] = useState(false);
@@ -25,10 +34,44 @@ interface AIChatBoxProps {
   onClose: () => void;
 }
 
+const initialMessages: UIMessage[] = [
+  {
+    id: "welcome-message",
+    role: "assistant",
+    parts: [
+      {
+        type: "text",
+        text: "I'm your notes assistant. I can find and summarise any information that you saved",
+      },
+    ],
+  },
+];
+
 function AIChatBox({ open, onClose }: AIChatBoxProps) {
+  const [input, setInput] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const token = useAuthToken();
+
+  const { messages, sendMessage } = useChat({
+    transport: new DefaultChatTransport({
+      api: `${convexSiteUrl}/api/chat`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }),
+    messages: initialMessages,
+  });
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (input.trim()) {
+      sendMessage({ text: input });
+      setInput("");
+    }
+  }
 
   if (!open) return null;
 
@@ -77,12 +120,16 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
       </div>
 
       <div className="flex-1 space-y-4 overflow-y-auto p-3">
-        {/* TODO: Render messages here */}
+        {messages.map((message) => (
+          <ChatMessage key={message.id} message={message} />
+        ))}
         <div ref={messagesEndRef} />
       </div>
 
-      <form className="flex gap-2 border-t p-3">
+      <form className="flex gap-2 border-t p-3" onSubmit={onSubmit}>
         <Textarea
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message..."
           className="max-h-[120px] min-h-[40px] resize-none overflow-y-auto"
           maxLength={1000}
@@ -96,12 +143,12 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
   );
 }
 
-function Loader() {
-  return (
-    <div className="ml-2 flex items-center gap-1 py-2">
-      <div className="bg-primary size-1.5 animate-pulse rounded-full" />
-      <div className="bg-primary size-1.5 animate-pulse rounded-full delay-150" />
-      <div className="bg-primary size-1.5 animate-pulse rounded-full delay-300" />
-    </div>
-  );
-}
+// function Loader() {
+//   return (
+//     <div className="ml-2 flex items-center gap-1 py-2">
+//       <div className="bg-primary size-1.5 animate-pulse rounded-full" />
+//       <div className="bg-primary size-1.5 animate-pulse rounded-full delay-150" />
+//       <div className="bg-primary size-1.5 animate-pulse rounded-full delay-300" />
+//     </div>
+//   );
+// }
