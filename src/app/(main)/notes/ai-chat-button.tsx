@@ -87,6 +87,8 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
 
   if (!open) return null;
 
+  const lastMessageIsUser = messages[messages.length - 1].role === "user";
+
   return (
     <div
       className={cn(
@@ -136,6 +138,8 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
         {messages.map((message) => (
           <ChatMessage key={message.id} message={message} />
         ))}
+        {status === "submitted" && lastMessageIsUser && <Loader />}
+        {status === "error" && <ErrorMessage />}
         <div ref={messagesEndRef} />
       </div>
 
@@ -161,12 +165,20 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
   );
 }
 
-// function Loader() {
-//   return (
-//     <div className="ml-2 flex items-center gap-1 py-2">
-//       <div className="bg-primary size-1.5 animate-pulse rounded-full" />
-//       <div className="bg-primary size-1.5 animate-pulse rounded-full delay-150" />
-//       <div className="bg-primary size-1.5 animate-pulse rounded-full delay-300" />
-//     </div>
-//   );
-// }
+function Loader() {
+  return (
+    <div className="ml-2 flex items-center gap-1 py-2">
+      <div className="bg-primary size-1.5 animate-pulse rounded-full" />
+      <div className="bg-primary size-1.5 animate-pulse rounded-full delay-150" />
+      <div className="bg-primary size-1.5 animate-pulse rounded-full delay-300" />
+    </div>
+  );
+}
+
+function ErrorMessage() {
+  return (
+    <div className="text-sm text-red-500">
+      Somethiing went wrong. Please try again.
+    </div>
+  );
+}
