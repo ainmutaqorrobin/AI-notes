@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useAuthToken } from "@convex-dev/auth/react";
 import { Bot, Expand, Minimize, Send, Trash, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, UIMessage } from "ai";
 import ChatMessage from "@/components/chat-message";
@@ -53,7 +53,7 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
 
   const token = useAuthToken();
 
-  const { messages, sendMessage } = useChat({
+  const { messages, sendMessage, setMessages, status } = useChat({
     transport: new DefaultChatTransport({
       api: `${convexSiteUrl}/api/chat`,
       headers: {
@@ -65,13 +65,25 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  const isProcessing = status === "submitted" || status === "streaming";
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [open, messages]);
+
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (input.trim()) {
+    if (input.trim() && !isProcessing) {
       sendMessage({ text: input });
       setInput("");
     }
   }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      onSubmit(e);
+    }
+  };
 
   if (!open) return null;
 
@@ -102,9 +114,10 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => {}}
+            onClick={() => setMessages(initialMessages)}
             className="text-primary-foreground hover:bg-primary/90 h-8 w-8"
             title="Clear chat"
+            disabled={isProcessing}
           >
             <Trash />
           </Button>
@@ -130,12 +143,17 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
         <Textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="Type your message..."
           className="max-h-[120px] min-h-[40px] resize-none overflow-y-auto"
           maxLength={1000}
           autoFocus
         />
-        <Button type="submit" size="icon">
+        <Button
+          type="submit"
+          size="icon"
+          disabled={!input.trim() || isProcessing}
+        >
           <Send className="size-4" />
         </Button>
       </form>
