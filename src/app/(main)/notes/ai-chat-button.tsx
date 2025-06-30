@@ -68,7 +68,7 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
   const isProcessing = status === "submitted" || status === "streaming";
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (open) messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
   }, [open, messages]);
 
   function onSubmit(e: React.FormEvent) {
