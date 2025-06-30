@@ -1,7 +1,7 @@
 "use node";
 
 import { action } from "./_generated/server";
-import { generateEmbedding } from "../src/lib/embeddings";
+import { generateEmbeddings } from "../src/lib/embeddings";
 import { v } from "convex/values";
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { internal } from "./_generated/api";
@@ -27,7 +27,7 @@ export const createNote = action({
 
     const text = `${args.title}\n\n${args.body}`;
 
-    const embeddings = await generateEmbedding(text);
+    const embeddings = await generateEmbeddings(text);
 
     const noteId: Id<"notes"> = await ctx.runMutation(
       internal.notes.createNoteWithEmbeddings,

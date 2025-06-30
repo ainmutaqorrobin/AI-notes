@@ -1,5 +1,5 @@
 import { openai } from "@ai-sdk/openai";
-import { embedMany } from "ai";
+import { embed, embedMany } from "ai";
 
 interface EmbeddingObject {
   content: string;
@@ -15,7 +15,7 @@ function generateChunk(input: string) {
     .filter(Boolean);
 }
 
-export async function generateEmbedding(
+export async function generateEmbeddings(
   value: string
 ): Promise<Array<EmbeddingObject>> {
   const chunks = generateChunk(value);
@@ -29,4 +29,13 @@ export async function generateEmbedding(
     content: chunks[index],
     embedding,
   }));
+}
+
+export async function generateEmbedding(value: string): Promise<number[]> {
+  const { embedding } = await embed({
+    model: embeddingModel,
+    value,
+  });
+
+  return embedding;
 }
