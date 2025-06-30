@@ -61,6 +61,7 @@ function AIChatBox({ open, onClose }: AIChatBoxProps) {
       },
     }),
     messages: initialMessages,
+    maxSteps: 3,
   });
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -178,7 +179,7 @@ function Loader() {
 function ErrorMessage() {
   return (
     <div className="text-sm text-red-500">
-      Somethiing went wrong. Please try again.
+      Something went wrong. Please try again.
     </div>
   );
 }
