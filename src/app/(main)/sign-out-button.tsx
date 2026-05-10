@@ -7,7 +7,12 @@ import { LogOut } from "lucide-react";
 export function SignOutButton() {
   const { signOut } = useAuthActions();
   return (
-    <Button variant="outline" onClick={() => signOut()} title="Sign out">
+    <Button
+      variant="outline"
+      onClick={() => signOut()}
+      title="Sign out"
+      className="rounded-full"
+    >
       <LogOut />
     </Button>
   );

@@ -6,26 +6,38 @@ import { SignOutButton } from "./sign-out-button";
 
 export function Navbar() {
   return (
-    <nav className="flex justify-center p-4 bg-card border-b">
-      <div className="container xl:max-w-6xl flex items-center mx-auto justify-between">
-        <Link
-          href="/notes"
-          className="flex items-center gap-3 text-xl font-semibold text-card-foreground hover:opacity-80 transition-opacity"
-        >
-          <Image
-            src={logo}
-            alt="AI Notes Logo"
-            width={32}
-            height={32}
-            className="rounded"
-          />
-          AI Notes
-        </Link>
+    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/75 backdrop-blur-xl">
+      <nav className="page-container flex min-h-18 items-center justify-between gap-4 py-3">
+        <div className="flex min-w-0 items-center gap-4">
+          <Link
+            href="/notes"
+            className="flex min-w-0 items-center gap-3 transition-opacity hover:opacity-85"
+          >
+            <div className="surface-soft rounded-2xl border border-border/70 p-2">
+              <Image
+                src={logo}
+                alt="AI Notes logo"
+                width={22}
+                height={22}
+                className="opacity-70"
+              />
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-sm font-semibold tracking-[0.14em] uppercase">
+                AI Notes
+              </p>
+              <p className="truncate text-xs text-muted-foreground">
+                Knowledge workspace with grounded AI recall
+              </p>
+            </div>
+          </Link>
+        </div>
+
         <div className="flex items-center gap-2">
           <ModeToggle />
           <SignOutButton />
         </div>
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 }

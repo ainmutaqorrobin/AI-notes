@@ -9,8 +9,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       enableSystem
       disableTransitionOnChange
     >
-      <Navbar />
-      <main className="p-4">{children}</main>
+      <div className="page-shell">
+        <Navbar />
+        <main className="page-container py-6 sm:py-8">{children}</main>
+      </div>
     </ThemeProvider>
   );
 }

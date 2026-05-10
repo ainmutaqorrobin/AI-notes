@@ -1,13 +1,20 @@
 import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Fraunces, Manrope } from "next/font/google";
 import "./globals.css";
 import { ConvexClientProvider } from "./convex-client-provider";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 
-const geistSans = Geist({
+const manrope = Manrope({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const fraunces = Fraunces({
+  variable: "--font-editorial",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -16,7 +23,7 @@ export const metadata: Metadata = {
     default: "AI Notes",
   },
   description:
-    "A note-taking app with AI chatbot integration built with Convex and the Vercel AI SDK.",
+    "A premium AI-assisted notes workspace for professionals, built with Convex and the Vercel AI SDK.",
 };
 
 export default function RootLayout({
@@ -26,8 +33,12 @@ export default function RootLayout({
 }>) {
   return (
     <ConvexAuthNextjsServerProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body className={`${geistSans.className} antialiased`}>
+      <html
+        lang="en"
+        suppressHydrationWarning
+        className={`${manrope.variable} ${fraunces.variable}`}
+      >
+        <body className="font-sans antialiased">
           <ConvexClientProvider>{children}</ConvexClientProvider>
           <Toaster position="top-right" />
         </body>
