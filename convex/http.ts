@@ -24,7 +24,7 @@ http.route({
     const lastMessages = messages.slice(-10);
 
     const result = streamText({
-      model: openai("gpt-3.5-turbo"),
+      model: openai("chatgpt-4o-latest"),
       system: `You are a helpful assistant that can search through the user's notes.
       Use the information from the notes to answer questions and provide insights.
       If the requested information is not available, respond with "Sorry, I can't find that information in your notes".
